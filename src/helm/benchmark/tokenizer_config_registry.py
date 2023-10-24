@@ -27,10 +27,10 @@ class TokenizerConfig:
     """Specification for instantiating the client for this tokenizer."""
 
     end_of_text_token: Optional[str] = None
-    """The end of text token. If unset, defaults to the empty string."""
+    """The end of text token. If unset, auto-inferred by the WindowService."""
 
     prefix_token: Optional[str] = None
-    """The prefix token. If unset, defaults to the empty string."""
+    """The prefix token. If unset, auto-inferred by the WindowService."""
 
 
 @dataclass(frozen=True)
