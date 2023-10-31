@@ -12,7 +12,7 @@ parse results from helm-summerize under helm_output_dir/runs/submission_id
 
 #this is taken from https://github.com/Lightning-AI/llm-efficiency-challenge-eval/blob/main/agents/agents.py#L182
 def process_helm_results(root_path:str, suite: str) -> dict:
-    path = f"{root_path}/{suite}/groups/"
+    path = f"{root_path}/runs/{suite}/groups/"
     output = {}
 
     for scenario, scenario_metrics in METRICS.items():
@@ -47,7 +47,12 @@ if __name__ == "__main__":
         parser.add_argument('--idx', type=str, help='submission id', required=True)
         args = parser.parse_args()
         run_results = process_helm_results(args.dir, args.idx)
-        with open (f"{args.idx}.json", 'w') as handle:
+
+        results_dir = f"{args.dir}/submission_results"
+        os.makedirs(results_dir, exist_ok=True)
+        result_json = os.path.join(results_dir, f"{args.idx}.json")
+
+        with open (result_json, 'w') as handle:
             json.dump( run_results, handle)
 
     except Exception as e :
