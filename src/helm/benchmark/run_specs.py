@@ -1024,6 +1024,7 @@ def get_corr2cause_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
         args = {}
     )
 
+    # TODO: Should we fill out some custom instructions in the prompt?
     adapter_spec = get_multiple_choice_adapter_spec(method = method, instructions="", input_noun="Question", output_noun="Answer")
 
     return RunSpec(

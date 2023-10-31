@@ -30,8 +30,6 @@ class Corr2CauseScenario(Scenario):
             split=split
         )
 
-
-
     def download_dataset(self, output_path: str):
         """Downloads the Corr2Cause dataset if not already present."""
         # Define the target path for the dataset
