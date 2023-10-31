@@ -16,3 +16,7 @@ helm-summarize \
   --output-path /results \
   --suite "$2" \
   -n 30 | tee "/results/helm-summarize-$CONF_NAME-$2.log"
+
+/helm/neurIPS_eval_scripts/process_helm.py \
+  --dir /results \
+  --idx "$2"
