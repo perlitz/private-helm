@@ -11,7 +11,7 @@ class SamSumScenario(Scenario):
     Add some doc strings at some point
     """
 
-    SOURCE_URL: str = "https://raw.githubusercontent.com/llm-efficiency-challenge/datasets/master/samsum/samsum.tsv?token=GHSAT0AAAAAACBC4CTDLZSDGQ3MKPPZBZ6IZKBJQEQ"
+    SOURCE_URL: str = "https://gist.githubusercontent.com/msaroufim/3f1845a5d93b50d849c42b7baeb2f716/raw/11c2d1814a69bb2cfa54549eaa50c0dcc104b9e5/samsum.tsv"
 
     name = "sam_sum"
     description = "SAMSum Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization"
