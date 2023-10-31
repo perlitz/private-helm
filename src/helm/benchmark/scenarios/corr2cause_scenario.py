@@ -3,7 +3,8 @@ import os
 import random
 from typing import List, Dict, Any
 from helm.common.general import ensure_file_downloaded, ensure_directory_exists
-from .scenario import Scenario
+from .scenario import Scenario, Instance, Reference, ALL_SPLITS, CORRECT_TAG, VALID_SPLIT, Input, Output
+
 # TODO: Should I just get rid of the train/test split?
 
 class Corr2CauseScenario(Scenario):
@@ -15,6 +16,20 @@ class Corr2CauseScenario(Scenario):
     TRAIN_RATIO = 0.8  # 80% for training, 20% for validation
     TRAIN_SPLIT = "train"
     VALID_SPLIT = "valid"
+
+    def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
+        """Converts a single data point into an instance."""
+        input_text = Input(text=data_point["input"])
+        label = Output(text=str(data_point["label"]))
+        reference = Reference(output=label, tags=[CORRECT_TAG])
+        
+        return Instance(
+            id=instance_id,
+            input=input_text,
+            references=[reference],
+            split=split
+        )
+
 
 
     def download_dataset(self, output_path: str):
@@ -54,24 +69,15 @@ class Corr2CauseScenario(Scenario):
         random.shuffle(data)
         return data
 
-    def get_instances(self, output_path: str) -> List[Dict[str, Any]]:
+    def get_instances(self, output_path: str) -> List[Instance]:
         """Returns the instances for this scenario."""
-        self.download_dataset(output_path)  # Ensure dataset is downloaded
         data = self.load_dataset(output_path)
         # Split the data
         split_k = int(len(data) * self.TRAIN_RATIO)
         train_data = data[:split_k]
         valid_data = data[split_k:]
-        train_instances = [self.data_to_instance(dt, self.TRAIN_SPLIT) for dt in train_data]
-        valid_instances = [self.data_to_instance(dt, self.VALID_SPLIT) for dt in valid_data]
+        
+        train_instances = [self.data_to_instance(dt, self.TRAIN_SPLIT, f"id{i}") for i, dt in enumerate(train_data)]
+        valid_instances = [self.data_to_instance(dt, self.VALID_SPLIT, f"id{i+len(train_data)}") for i, dt in enumerate(valid_data)]
+        
         return train_instances + valid_instances
-
-    @staticmethod
-    def data_to_instance(data_point: Dict[str, Any], split: str) -> Dict[str, Any]:
-        """Converts a single data point into an instance."""
-        instance = {
-            "input": data_point["input"],
-            "label": data_point["label"],
-            "split": split
-        }
-        return instance
