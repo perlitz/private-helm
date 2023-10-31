@@ -78,7 +78,7 @@ if __name__ == "__main__":
         parser.add_argument('--idx', type=str, help='submission id', required=True)
         args = parser.parse_args()
         run_results = process_helm_results(args.dir, args.idx)
-        with open (args.ix.json, 'w') as handle:
+        with open (f'{args.idx}.json', 'w') as handle:
             json.dump( run_results, handle)
 
     except Exception as e :
