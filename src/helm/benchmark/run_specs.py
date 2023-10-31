@@ -1922,6 +1922,23 @@ def get_me_q_sum_spec() -> RunSpec:
         groups=["MeQSum"],
     )
 
+@run_spec_function("sam_sum")
+def get_sam_sum_spec() -> RunSpec:
+    scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.sam_sum_scenario.SamSumScenario", args={})
+
+    adapter_spec = get_summarization_adapter_spec(
+        num_sents=1,
+        max_tokens=128,
+        temperature=0.3,
+    )
+
+    return RunSpec(
+        name="sam_sum",
+        scenario_spec=scenario_spec,
+        adapter_spec=adapter_spec,
+        metric_specs=get_open_ended_generation_metric_specs() + get_generative_harms_metric_specs(),
+        groups=["SamSum"],
+    )
 
 @run_spec_function("med_dialog")
 def get_med_dialog_spec(subset: str) -> RunSpec:
