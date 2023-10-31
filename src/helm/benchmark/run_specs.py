@@ -1937,7 +1937,7 @@ def get_sam_sum_spec() -> RunSpec:
         scenario_spec=scenario_spec,
         adapter_spec=adapter_spec,
         metric_specs=get_open_ended_generation_metric_specs() + get_generative_harms_metric_specs(),
-        groups=["SamSum"],
+        groups=["sam_sum"],
     )
 
 @run_spec_function("med_dialog")
