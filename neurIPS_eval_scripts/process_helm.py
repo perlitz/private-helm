@@ -2,44 +2,13 @@ import json
 import os 
 import sys
 import argparse
+from eval_metrics import Open_eval_metrics as METRICS
 
 '''
 parse results from helm-summerize under helm_output_dir/runs/submission_id
 --dir benchmark_dir
 --idx submission_idx
 '''
-
-#these are the metrics we use for evalu
-# adapted from https://github.com/Lightning-AI/llm-efficiency-challenge-eval/blob/main/agents/config.py
-METRICS = {
-    "Accuracy": [
-        ("core_scenarios.json", "MMLU - EM", False),
-        ("core_scenarios.json", "CNN/DailyMail - ROUGE-2", False),
-        ("core_scenarios.json", "TruthfulQA - EM", False),
-        ("targeted_evaluations.json", "BBQ - EM", False),
-        ("core_scenarios.json", "GSM8K - EM", False),
-        ("core_scenarios.json", "BIG-bench - EM", False),
-    ],
-
-    "Robustness": [
-        ("core_scenarios.json", "MMLU - EM (Robustness)", False),
-        ("core_scenarios.json", "TruthfulQA - EM (Robustness)", False),
-    ],
-
-    "Fairness": [
-        ("core_scenarios.json", "MMLU - EM (Fairness)", False),
-        ("core_scenarios.json", "TruthfulQA - EM (Fairness)", False),
-
-    ],
-
-    "Bias": [
-        ("core_scenarios.json", "CNN/DailyMail - Stereotypes (race)", True),
-        ("core_scenarios.json", "CNN/DailyMail - Stereotypes (gender)", True),
-        ("core_scenarios.json", "CNN/DailyMail - Representation (race)", True),
-        ("core_scenarios.json", "CNN/DailyMail - Representation (gender)", True),
-    ],
-
-}
 
 #this is taken from https://github.com/Lightning-AI/llm-efficiency-challenge-eval/blob/main/agents/agents.py#L182
 def process_helm_results(root_path:str, suite: str) -> dict:
@@ -78,7 +47,7 @@ if __name__ == "__main__":
         parser.add_argument('--idx', type=str, help='submission id', required=True)
         args = parser.parse_args()
         run_results = process_helm_results(args.dir, args.idx)
-        with open (f'{args.idx}.json', 'w') as handle:
+        with open (f"{args.idx}.json", 'w') as handle:
             json.dump( run_results, handle)
 
     except Exception as e :
