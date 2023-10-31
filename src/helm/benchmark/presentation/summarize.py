@@ -1246,10 +1246,13 @@ class Summarizer:
         releases_dir: str = os.path.dirname(self.run_release_path)
         symlink_path: str = os.path.abspath(os.path.join(releases_dir, LATEST_SYMLINK))
         hlog(f"Symlinking {self.run_release_path} to {LATEST_SYMLINK}.")
-        if os.path.islink(symlink_path):
-            # Remove the previous symlink if it exists.
-            os.unlink(symlink_path)
-        os.symlink(os.path.abspath(self.run_release_path), symlink_path)
+        try:
+            if os.path.islink(symlink_path):
+                # Remove the previous symlink if it exists.
+                os.unlink(symlink_path)
+            os.symlink(os.path.abspath(self.run_release_path), symlink_path)
+        except:
+            pass
 
     def run_pipeline(self, skip_completed: bool, num_instances: int) -> None:
         """Run the entire summarization pipeline pipeline."""
