@@ -30,6 +30,7 @@ HUMAN_EVAL_URL: str = (
     "https://storage.cloud.google.com/crfm-helm-public/source_datasets/metrics/summarization_metrics/{file_name}"
 )
 
+
 class SummarizationMetric(Metric):
     """Summarization Metrics
 

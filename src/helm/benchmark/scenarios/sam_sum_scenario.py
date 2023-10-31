@@ -11,9 +11,7 @@ class SamSumScenario(Scenario):
     Add some doc strings at some point
     """
 
-    SOURCE_URL: str = (
-        "https://raw.githubusercontent.com/llm-efficiency-challenge/datasets/master/samsum/samsum.tsv?token=GHSAT0AAAAAACBC4CTDLZSDGQ3MKPPZBZ6IZKBJQEQ"
-    )
+    SOURCE_URL: str = "https://raw.githubusercontent.com/llm-efficiency-challenge/datasets/master/samsum/samsum.tsv?token=GHSAT0AAAAAACBC4CTDLZSDGQ3MKPPZBZ6IZKBJQEQ"
 
     name = "sam_sum"
     description = "SAMSum Corpus: A Human-annotated Dialogue Dataset for Abstractive Summarization"
@@ -24,7 +22,7 @@ class SamSumScenario(Scenario):
         Build `Instance`s using the consumer health questions and their summarized versions.
         """
 
-        def download_and_read_tsv(filename : str = "samsum.tsv") -> List[dict]:
+        def download_and_read_tsv(filename: str = "samsum.tsv") -> List[dict]:
             file_path: str = os.path.join(data_path, filename)
             ensure_file_downloaded(
                 source_url=SamSumScenario.SOURCE_URL,
@@ -32,8 +30,8 @@ class SamSumScenario(Scenario):
                 unpack=False,
             )
 
-            with open(file_path, mode='r', encoding='utf-8') as f:
-                reader = csv.DictReader(f, delimiter='\t')
+            with open(file_path, mode="r", encoding="utf-8") as f:
+                reader = csv.DictReader(f, delimiter="\t")
                 return [row for row in reader]
 
         data_path: str = os.path.join(output_path, "data")
@@ -43,8 +41,8 @@ class SamSumScenario(Scenario):
         instances: List[Instance] = []
 
         for row in rows:
-            dialogue = row['dialogue']
-            summary = row['summary']
+            dialogue = row["dialogue"]
+            summary = row["summary"]
 
             # Assuming the split (train/test/val) is not provided in the TSV, using VALID_SPLIT for all instances.
             # You can modify this part if the split is provided in the TSV.
