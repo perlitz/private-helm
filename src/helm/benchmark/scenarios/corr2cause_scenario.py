@@ -17,19 +17,6 @@ class Corr2CauseScenario(Scenario):
     TRAIN_SPLIT = "train"
     VALID_SPLIT = "valid"
 
-    def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
-        """Converts a single data point into an instance."""
-        input_text = Input(text=data_point["input"])
-        label = Output(text=str(data_point["label"]))
-        reference = Reference(output=label, tags=[CORRECT_TAG])
-        
-        return Instance(
-            id=instance_id,
-            input=input_text,
-            references=[reference],
-            split=split
-        )
-
     def download_dataset(self, output_path: str):
         """Downloads the Corr2Cause dataset if not already present."""
         # Define the target path for the dataset
@@ -48,24 +35,34 @@ class Corr2CauseScenario(Scenario):
 
 
     def load_dataset(self, output_path: str) -> List[Dict[str, Any]]:
-        """Loads the new dataset format."""
         file_path = os.path.join(output_path, "data", self.DATASET_FILE_NAME)
-
+        
         data = []
         with open(file_path, encoding="utf-8") as f:
-            # Skip headers
             csv_reader = csv.reader(f)
             next(csv_reader)
-            # Loop through the file
-            for label, input_text in csv_reader:
+            for label, question in csv_reader:
+                formatted_input = f"{question}\nFirst Option: 0\nSecond Option: 1"
                 data_point = {
                     "label": int(label),
-                    "input": input_text.strip()
+                    "input": formatted_input.strip()
                 }
                 data.append(data_point)
-        # Shuffle the dataset entries
         random.shuffle(data)
         return data
+
+    def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
+        input_text = Input(text=data_point["input"])
+        label = "First Option" if data_point["label"] == 0 else "Second Option"
+        reference = Reference(output=Output(text=label), tags=[CORRECT_TAG])
+
+        return Instance(
+            id=instance_id,
+            input=input_text,
+            references=[reference],
+            split=split
+        )
+
 
     def get_instances(self, output_path: str) -> List[Instance]:
         """Returns the instances for this scenario."""
