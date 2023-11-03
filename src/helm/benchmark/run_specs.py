@@ -1017,6 +1017,24 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
         groups=["truthful_qa"],
     )
 
+@run_spec_function("ethicsjustice")
+def get_ethics_justice_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
+    scenario_spec = ScenarioSpec(
+        class_name="helm.benchmark.scenarios.ethics_justice_scenario.EthicsJusticeScenario",
+        args={},
+    )
+
+    adapter_spec = get_multiple_choice_adapter_spec(
+        method=method, instructions="", input_noun="Question", output_noun="Answer"
+    )
+
+    return RunSpec(
+        name=f"ethicsjustice,method={method}",
+        scenario_spec=scenario_spec,
+        adapter_spec=adapter_spec,
+        metric_specs=get_exact_match_metric_specs(),
+        groups=["ethicsjustice"],
+    )
 
 @run_spec_function("twitter_aae")
 def get_twitter_aae_spec(demographic: str) -> RunSpec:
