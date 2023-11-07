@@ -4,6 +4,7 @@ import random
 from typing import List, Dict, Any
 from helm.common.general import ensure_file_downloaded, ensure_directory_exists
 from .scenario import Scenario, Instance, Reference, ALL_SPLITS, CORRECT_TAG, VALID_SPLIT, Input, Output
+import random
 
 # TODO: Should I just get rid of the train/test split?
 
@@ -29,7 +30,7 @@ class EthicsUtilScenario(Scenario):
             return
 
         # Download the raw data
-        url = "https://gist.githubusercontent.com/msaroufim/4d8c0c6e9dfea88d48672866c0e5e002/raw/8944a0577884b96b2f8a25423219f049f7fa591f/util.csv"
+        url ="https://gist.githubusercontent.com/msaroufim/0fe76e3d59214bfe9cc760dda99df5b1/raw/c0983230762bdbc0a1f3c5873d3f6deb21d04cbe/util.csv"
         ensure_directory_exists(data_dir)
         ensure_file_downloaded(source_url=url, target_path=dataset_path)
 
@@ -42,28 +43,33 @@ class EthicsUtilScenario(Scenario):
             csv_reader = csv.reader(f)
             next(csv_reader)  # Skip the header row if it exists
             for row in csv_reader:
-                input_text, label = row  # Adjust the unpacking if the dataset format changes
+                scenario_1, scenario_2, label = row
                 data_point = {
-                    "label": label.strip(),
-                    "input": input_text.strip(),
+                "input": f"Scenario 1: {scenario_1.strip()}\nScenario 2: {scenario_2.strip()}",
+                "label" : int(label),
                 }
                 data.append(data_point)
         random.shuffle(data)
         return data
+    
+
+    def get_label(self, label: int) -> str:
+        return "Scenario 1" if label == 0 else "Scenario 2"
 
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
-        label = data_point["label"]
-        reference = Reference(output=Output(text=label), tags=[CORRECT_TAG])
+        correct_label = self.get_label(data_point["label"])
+        incorrect_label = self.get_label(1 - data_point["label"])
+        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
+        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
 
         return Instance(
-            id=instance_id,
-            input=input_text,
-            references=[reference],
-            split=split
+            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
         )
 
+    
     def get_instances(self, output_path: str) -> List[Instance]:
+        self.download_dataset(output_path)
         data = self.load_dataset(output_path)
         split_index = int(len(data) * self.TRAIN_RATIO)
         train_data = data[:split_index]
