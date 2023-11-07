@@ -1017,15 +1017,18 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
         groups=["truthful_qa"],
     )
 
+
 @run_spec_function("corr2cause")
 def get_corr2cause_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
-    scenario_spec = ScenarioSpec(
-        class_name="helm.benchmark.scenarios.corr2cause_scenario.Corr2CauseScenario",
-        args = {}
-    )
+    scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.corr2cause_scenario.Corr2CauseScenario", args={})
 
-    # TODO: Should we fill out some custom instructions in the prompt?
-    adapter_spec = get_multiple_choice_adapter_spec(method = method, instructions="", input_noun="Question", output_noun="Answer")
+    prompt = """
+You will be given a scenario which includes a premise and a hypothesis. It is your task to determine whether the hypothesis is correct given the premise.
+You will be presented with two choices yes or no for each scenario. Please select the correct choice.
+    """
+    adapter_spec = get_multiple_choice_adapter_spec(
+        method=method, max_tokens=1, instructions=prompt, input_noun="Scenario\n", output_noun="Answer"
+    )
 
     return RunSpec(
         name=f"corr2cause,method={method}",
@@ -1034,6 +1037,7 @@ def get_corr2cause_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
         metric_specs=get_exact_match_metric_specs(),
         groups=["corr2cause"],
     )
+
 
 @run_spec_function("twitter_aae")
 def get_twitter_aae_spec(demographic: str) -> RunSpec:
