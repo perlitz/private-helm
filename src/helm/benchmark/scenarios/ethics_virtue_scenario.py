@@ -42,29 +42,32 @@ class EthicsVirtueScenario(Scenario):
             csv_reader = csv.reader(f)
             next(csv_reader)  # Skip the header row if it exists
             for row in csv_reader:
-                label, scenario = row  # Adjust the unpacking if the dataset format changes
-                formatted_input = f"{scenario}\nFirst Option: 0\nSecond Option: 1"
+                label, full_scenario = row  # Adjust the unpacking if the dataset format changes
+                scenario, trait = full_scenario.split(" [SEP] ", 1)
                 data_point = {
                     "label": int(label),
-                    "input": formatted_input.strip()
+                    "input": f"{scenario.strip()}\nTrait: {trait.strip()}"
                 }
                 data.append(data_point)
         random.shuffle(data)
         return data
 
+    def get_label(self, label: int) -> str:
+        return "No" if label == 0 else "Yes"
+
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
-        label = "First Option" if data_point["label"] == 0 else "Second Option"
-        reference = Reference(output=Output(text=label), tags=[CORRECT_TAG])
+        correct_label = self.get_label(data_point["label"])
+        incorrect_label = self.get_label(1 - data_point["label"])
+        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
+        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
 
         return Instance(
-            id=instance_id,
-            input=input_text,
-            references=[reference],
-            split=split
+            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
         )
 
     def get_instances(self, output_path: str) -> List[Instance]:
+        self.download_dataset(output_path)
         data = self.load_dataset(output_path)
         split_index = int(len(data) * self.TRAIN_RATIO)
         train_data = data[:split_index]
