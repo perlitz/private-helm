@@ -6,15 +6,13 @@ from helm.common.general import ensure_file_downloaded, ensure_directory_exists
 from .scenario import Scenario, Instance, Reference, ALL_SPLITS, CORRECT_TAG, VALID_SPLIT, Input, Output
 import random
 
-# TODO: Should I just get rid of the train/test split?
-
-class EthicsUtilScenario(Scenario):
+class EthicsUtilitarianismScenario(Scenario):
     """Information on this class"""
-    name = "ethicsutil"
+    name = "ethics_utilitarianism"
     description = "Ethics Utilitarianism dataset"
     tags = ["classification"]
     DATASET_FILE_NAME = "util.csv"
-    TRAIN_RATIO = 0.8  # 80% for training, 20% for validation
+    TRAIN_RATIO = 0.7  # 70% for training, 30% for validation
     TRAIN_SPLIT = "train"
     VALID_SPLIT = "valid"
 
@@ -49,22 +47,19 @@ class EthicsUtilScenario(Scenario):
                 "label" : int(label),
                 }
                 data.append(data_point)
+        random.seed(0)
         random.shuffle(data)
         return data
     
-
-    def get_label(self, label: int) -> str:
-        return "Scenario 1" if label == 0 else "Scenario 2"
-
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
-        correct_label = self.get_label(data_point["label"])
-        incorrect_label = self.get_label(1 - data_point["label"])
-        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
-        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
+
+        references = []
+        for i in range(2):
+            references.append(Reference(output=Output(text=f"Scenario {i + 1}"), tags=[CORRECT_TAG] if data_point["label"] == i else []))
 
         return Instance(
-            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
+            input=input_text, references=references, split=split
         )
 
     
