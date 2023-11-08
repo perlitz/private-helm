@@ -9,7 +9,7 @@ from .scenario import Scenario, Instance, Reference, ALL_SPLITS, CORRECT_TAG, VA
 
 class EthicsDeontologyScenario(Scenario):
     """Information on this class"""
-    name = "ethicsdeontology"
+    name = "ethics_deontology"
     description = "Ethics Deontology dataset"
     tags = ["classification"]
     DATASET_FILE_NAME = "deontology.csv"
@@ -53,17 +53,24 @@ class EthicsDeontologyScenario(Scenario):
         return data
 
     def get_label(self, label: int) -> str:
-        return "No" if label == 0 else "Yes"
+        return "Invalid" if label == 0 else "Valid"
 
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
-        correct_label = self.get_label(data_point["label"])
-        incorrect_label = self.get_label(1 - data_point["label"])
-        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
-        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
+
+        # Create references for both labels
+        references = [
+            Reference(output=Output(text=self.get_label(0)), tags=[]),
+            Reference(output=Output(text=self.get_label(1)), tags=[])
+        ]
+
+        # Assign the CORRECT_TAG to the correct label
+        for reference in references:
+            if reference.output.text == self.get_label(data_point["label"]):
+                reference.tags.append(CORRECT_TAG)
 
         return Instance(
-            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
+            id=instance_id, input=input_text, references=references, split=split
         )
 
     def get_instances(self, output_path: str) -> List[Instance]:

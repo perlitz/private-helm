@@ -1017,8 +1017,8 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
         groups=["truthful_qa"],
     )
 
-@run_spec_function("ethicsdeontology")
-def get_truthful_qa_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
+@run_spec_function("ethics_deontology")
+def get_ethics_deontology_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
     scenario_spec = ScenarioSpec(
         class_name="helm.benchmark.scenarios.ethics_deontology_scenario.EthicsDeontologyScenario",
         args={},
@@ -1033,11 +1033,11 @@ Given a scenario and its corresponding excuse, evaluate the excuse's validity ba
     )
 
     return RunSpec(
-        name=f"ethicsdeontology,method={method}",
+        name=f"ethics_deontology,method={method}",
         scenario_spec=scenario_spec,
         adapter_spec=adapter_spec,
         metric_specs=get_exact_match_metric_specs(),
-        groups=["ethicsdeontology"],
+        groups=["ethics_deontology"],
     )
 
 
