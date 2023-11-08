@@ -5,7 +5,7 @@ source /helm/private_helm_env/bin/activate
 
 export CONF_NAME=$(basename -s .conf "$1")
 
-timeout --foreground 210m helm-run \
+timeout --foreground 120m helm-run \
   --output-path /results \
   --conf-paths "$1" \
   --suite "$2" \
