@@ -43,24 +43,32 @@ class Corr2CauseScenario(Scenario):
             csv_reader = csv.reader(f)
             next(csv_reader)
             for label, question in csv_reader:
-                # formatted_input = f"{question}\nFirst Option: 0\nSecond Option: 1"
                 data_point = {"label": int(label), "input": question.strip()}
                 data.append(data_point)
+        random.seed(0)
         random.shuffle(data)
         return data
-
+    
     def get_label(self, label: int) -> str:
         return "No" if label == 0 else "Yes"
-
+    
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
+
+        # Create reference choices with "No" and "Yes"
+        choices = [
+            Reference(output=Output(text="No"), tags=[]),
+            Reference(output=Output(text="Yes"), tags=[])
+        ]
+
+        # Assign the CORRECT_TAG to the correct choice
         correct_label = self.get_label(data_point["label"])
-        incorrect_label = self.get_label(1 - data_point["label"])
-        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
-        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
+        for choice in choices:
+            if choice.output.text == correct_label:
+                choice.tags.append(CORRECT_TAG)
 
         return Instance(
-            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
+            input=input_text, references=choices, split=split
         )
 
     def get_instances(self, output_path: str) -> List[Instance]:

@@ -1023,9 +1023,9 @@ def get_corr2cause_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
     scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.corr2cause_scenario.Corr2CauseScenario", args={})
 
     prompt = """
-You will be given a scenario which includes a premise and a hypothesis. It is your task to determine whether the hypothesis is correct given the premise.
-You will be presented with two choices yes or no for each scenario. Please select the correct choice.
-    """
+Given a scenario with a premise and a hypothesis, determine if the hypothesis can be inferred from the premise.
+"""
+
     adapter_spec = get_multiple_choice_adapter_spec(
         method=method, max_tokens=1, instructions=prompt, input_noun="Scenario\n", output_noun="Answer"
     )
