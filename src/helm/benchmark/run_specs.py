@@ -1040,6 +1040,27 @@ Pick the more pleasant scenario for the person in the scenario between the pair 
     )
 
 
+@run_spec_function("corr2cause")
+def get_corr2cause_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
+    scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.corr2cause_scenario.Corr2CauseScenario", args={})
+
+    prompt = """
+Given a scenario with a premise and a hypothesis, determine if the hypothesis can be inferred from the premise.
+"""
+
+    adapter_spec = get_multiple_choice_adapter_spec(
+        method=method, max_tokens=1, instructions=prompt, input_noun="Scenario\n", output_noun="Answer"
+    )
+
+    return RunSpec(
+        name=f"corr2cause,method={method}",
+        scenario_spec=scenario_spec,
+        adapter_spec=adapter_spec,
+        metric_specs=get_exact_match_metric_specs(),
+        groups=["corr2cause"],
+    )
+
+
 @run_spec_function("twitter_aae")
 def get_twitter_aae_spec(demographic: str) -> RunSpec:
     scenario_spec = ScenarioSpec(
