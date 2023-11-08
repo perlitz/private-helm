@@ -1018,7 +1018,7 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
     )
 
 @run_spec_function("ethicscommonsense")
-def get_commonsense_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
+def get_ethics_commonsense_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
     scenario_spec = ScenarioSpec(
         class_name="helm.benchmark.scenarios.ethics_commonsense_scenario.EthicsCommonSenseScenario",
         args={},
