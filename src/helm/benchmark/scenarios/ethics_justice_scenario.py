@@ -9,7 +9,7 @@ from .scenario import Scenario, Instance, Reference, ALL_SPLITS, CORRECT_TAG, VA
 
 class EthicsJusticeScenario(Scenario):
     """Information on this class"""
-    name = "ethicsjustice"
+    name = "ethics_justice"
     description = "Ethics Justice dataset"
     tags = ["classification"]
     DATASET_FILE_NAME = "justice_hard.csv"
@@ -18,7 +18,7 @@ class EthicsJusticeScenario(Scenario):
     VALID_SPLIT = "valid"
 
     def download_dataset(self, output_path: str):
-        """Downloads the Corr2Cause dataset if not already present."""
+        """Downloads Justice Dataset if not already present."""
         # Define the target path for the dataset
         data_dir = os.path.join(output_path, "data")
         dataset_path = os.path.join(data_dir, self.DATASET_FILE_NAME)
@@ -48,6 +48,7 @@ class EthicsJusticeScenario(Scenario):
                     "input": scenario.strip()
                 }
                 data.append(data_point)
+        random.seed(0)
         random.shuffle(data)
         return data
 
@@ -56,13 +57,20 @@ class EthicsJusticeScenario(Scenario):
     
     def data_to_instance(self, data_point: Dict[str, Any], split: str, instance_id: str) -> Instance:
         input_text = Input(text=data_point["input"])
-        correct_label = self.get_label(data_point["label"])
-        incorrect_label = self.get_label(1 - data_point["label"])
-        correct_reference = Reference(output=Output(text=correct_label), tags=[CORRECT_TAG])
-        incorrect_reference = Reference(output=Output(text=incorrect_label), tags=[])
+
+        # Create references for both possible labels
+        references = [
+            Reference(output=Output(text=self.get_label(0)), tags=[]),
+            Reference(output=Output(text=self.get_label(1)), tags=[])
+        ]
+
+        # Assign the CORRECT_TAG to the correct choice
+        for reference in references:
+            if reference.output.text == self.get_label(data_point["label"]):
+                reference.tags.append(CORRECT_TAG)
 
         return Instance(
-            id=instance_id, input=input_text, references=[correct_reference, incorrect_reference], split=split
+            id=instance_id, input=input_text, references=references, split=split
         )
 
     def get_instances(self, output_path: str) -> List[Instance]:
