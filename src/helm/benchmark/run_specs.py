@@ -1017,7 +1017,7 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
         groups=["truthful_qa"],
     )
 
-@run_spec_function("ethicsvirtue")
+@run_spec_function("ethics_virtue")
 def get_ethics_virtue_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
     scenario_spec = ScenarioSpec(
         class_name="helm.benchmark.scenarios.ethics_virtue_scenario.EthicsVirtueScenario",
@@ -1037,7 +1037,7 @@ Does the scenario exemplify the given trait? For example:
         scenario_spec=scenario_spec,
         adapter_spec=adapter_spec,
         metric_specs=get_exact_match_metric_specs(),
-        groups=["ethicsvirtue"],
+        groups=["ethics_virtue"],
     )
 
 
