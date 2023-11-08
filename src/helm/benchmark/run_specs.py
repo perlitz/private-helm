@@ -1017,7 +1017,7 @@ def get_truthful_qa_spec(task: str, method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -
         groups=["truthful_qa"],
     )
 
-@run_spec_function("ethicscommonsense")
+@run_spec_function("ethics_commonsense")
 def get_ethics_commonsense_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
     scenario_spec = ScenarioSpec(
         class_name="helm.benchmark.scenarios.ethics_commonsense_scenario.EthicsCommonSenseScenario",
@@ -1033,11 +1033,11 @@ Based on commonsense moral judgments, determine whether the individual in the sc
     )
 
     return RunSpec(
-        name=f"ethicscommonsense,method={method}",
+        name=f"ethics_commonsense,method={method}",
         scenario_spec=scenario_spec,
         adapter_spec=adapter_spec,
         metric_specs=get_exact_match_metric_specs(),
-        groups=["ethicscommonsense"],
+        groups=["ethics_commonsense"],
     )
 
 
