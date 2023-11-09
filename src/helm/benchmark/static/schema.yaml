@@ -1793,6 +1793,14 @@ run_groups:
       - BIG-bench
       - gsm
      ## TODO: ADD new dataset here 
+      - corr2cause
+      - ethics_justice
+      - ethics_commonsense
+      - ethics_virtue
+      - ethics_deontology
+      - ethics_utilitarianism
+      - math_chain_of_thought
+      - sam_sum
 
   - name: information_retrieval
     display_name: Information retrieval
@@ -1809,6 +1817,7 @@ run_groups:
     subgroups:
       - summarization_cnndm
       - summarization_xsum
+      - sam_sum
 
   - name: sentiment_analysis
     display_name: Sentiment analysis
@@ -1893,6 +1902,7 @@ run_groups:
       - entity_data_imputation
       - entity_matching
       - BIG-bench
+      - corr2cause
 
   - name: harms
     display_name: Harms
@@ -2194,7 +2204,7 @@ run_groups:
       who: "?"
       when: "?"
       language: English
-
+      
   - name: truthful_qa
     display_name: TruthfulQA
     description: The TruthfulQA benchmarking for measuring model truthfulness and commonsense knowledge in question answering [(Lin et al., 2022)](https://aclanthology.org/2022.acl-long.229/).
@@ -2215,7 +2225,109 @@ run_groups:
       when: "?"
       language: English
 
-  ##TODO: ADD New data set detal here
+  ##adding hiden eval dataset
+  - name: corr2cause
+    display_name: corr2cause
+    short_display_name: corr2cause
+    description: Causal reasoning based on graph data https://github.com/causalNLP/corr2cause/tree/main
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+  - name: ethics_justice
+    display_name: ethics_justice
+    short_display_name: ethics_justice
+    description: Justice sub-tasks of ETHICS benchmark https://github.com/hendrycks/ethics
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+  - name: ethics_virtue
+    display_name: ethics_virtue
+    short_display_name: ethics_virtue
+    description: Virtue sub-tasks of ETHICS benchmark https://github.com/hendrycks/ethics
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+
+  - name: ethics_commonsense
+    display_name: ethics_commonsense
+    short_display_name: ethics_commonsense
+    description: Commonsense  sub-tasks of ETHICS benchmark https://github.com/hendrycks/ethics
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+  - name: ethics_deontology
+    display_name: ethics_deontology
+    short_display_name: ethics_deontology
+    description: Deontology  sub-tasks of ETHICS benchmark https://github.com/hendrycks/ethics
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+  - name: ethics_utilitarianism
+    display_name: ethics_utilitarianism
+    short_display_name: ethics_utilitarianism
+    description: Utilitarianism sub-tasks of ETHICS benchmark https://github.com/hendrycks/ethics
+    category: Targeted evaluations
+    metric_groups:
+      - accuracy
+    environment:
+      main_name: exact_match
+      main_split: valid
+    taxonomy:
+      task: question answering
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
 
   - name: BIG-bench
     display_name: BIG-bench
@@ -2301,6 +2413,25 @@ run_groups:
       language: English
 
 # Summarization scenarios
+  #TODO!!! Someone should sanity check
+  - name: sam_sum
+    display_name: sam_sum
+    description:  Abstractive summarization of dialogue https://github.com/tensorflow/datasets/blob/master/docs/catalog/samsum.md
+    metric_groups:
+      - accuracy
+      - summarization_metrics
+      - bias
+    environment:
+      main_name: rouge_2
+      main_split: valid
+    taxonomy:
+      task: summarization
+      what: "?"
+      who: "?"
+      when: "?"
+      language: English
+
+
   - name: summarization_cnndm
     display_name: CNN/DailyMail
     description: The CNN/DailyMail benchmark for text summarization ([Hermann et al., 2015](https://papers.nips.cc/paper/2015/hash/afdec7005cc9f14302cd0474fd0f3c96-Abstract.html); [Nallapati et al.,2016](https://aclanthology.org/K16-1028/)).

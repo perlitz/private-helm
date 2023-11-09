@@ -2,7 +2,8 @@ import json
 import os 
 import sys
 import argparse
-from eval_metrics import Open_eval_metrics as METRICS
+from eval_metrics import Open_eval_metrics as open_metrics 
+from eval_metrics import Hidden_eval_metrics as hidden_metrics
 
 '''
 parse results from helm-summerize under helm_output_dir/runs/submission_id
@@ -11,7 +12,7 @@ parse results from helm-summerize under helm_output_dir/runs/submission_id
 '''
 
 #this is taken from https://github.com/Lightning-AI/llm-efficiency-challenge-eval/blob/main/agents/agents.py#L182
-def process_helm_results(root_path:str, suite: str) -> dict:
+def process_helm_results(root_path:str, suite: str, METRICS:dict = open_metrics) -> dict:
     path = f"{root_path}/runs/{suite}/groups/"
     output = {}
 
@@ -45,15 +46,30 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description="Parse helm-summerize results")
         parser.add_argument("--dir", type=str, help='Helm Benchmark dir', required=True)
         parser.add_argument('--idx', type=str, help='submission id', required=True)
+        
+        parser.add_argument('--hidden', action='store_true', help="hidden eval metrics", required=False)
         args = parser.parse_args()
-        run_results = process_helm_results(args.dir, args.idx)
+        
+        use_metrics = open_metrics
+        if args.hidden:
+            use_metrics = hidden_metrics
+            
+        run_results = process_helm_results(args.dir, args.idx, METRICS=use_metrics)
+        print(run_results)
 
         results_dir = f"{args.dir}/submission_results"
         os.makedirs(results_dir, exist_ok=True)
-        result_json = os.path.join(results_dir, f"{args.idx}.json")
+
+        out_name = f"{args.idx}.json" 
+        if args.hidden:
+            out_name = f"{args.idx}_hidden.json" 
+
+        result_json = os.path.join(results_dir, out_name)
+
+        print(result_json)
 
         with open (result_json, 'w') as handle:
-            json.dump( run_results, handle)
+            json.dump( run_results, handle, indent=4)
 
     except Exception as e :
         print(e)
