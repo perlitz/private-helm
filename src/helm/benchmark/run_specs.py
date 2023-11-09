@@ -1062,6 +1062,7 @@ Does the scenario exemplify the given trait? For example:
         adapter_spec=adapter_spec,
         metric_specs=get_exact_match_metric_specs(),
         groups=["ethics_virtue"],
+    )
 
 @run_spec_function("ethics_deontology")
 def get_ethics_deontology_spec(method: str = ADAPT_MULTIPLE_CHOICE_JOINT) -> RunSpec:
