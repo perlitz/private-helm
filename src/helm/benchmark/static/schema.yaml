@@ -1800,7 +1800,7 @@ run_groups:
       - ethics_deontology
       - ethics_utilitarianism
       - math_chain_of_thought
-      - sam_sum
+      - math_regular
 
   - name: information_retrieval
     display_name: Information retrieval
@@ -1916,6 +1916,11 @@ run_groups:
       - bbq
       - bold
       - real_toxicity_prompts
+      - ethics_justice
+      - ethics_commonsense
+      - ethics_virtue
+      - ethics_deontology
+      - ethics_utilitarianism
 
   - name: efficiency
     display_name: Efficiency
@@ -1952,6 +1957,7 @@ run_groups:
     subgroups:
       - natural_qa_openbook_longans
       - summarization_cnndm
+      - sam_sum
       - imdb
       - civil_comments
     adapter_keys_shown:
@@ -1975,6 +1981,11 @@ run_groups:
       - legal_support
       - lsat_qa
       - bbq
+      - ethics_justice
+      - ethics_commonsense
+      - ethics_virtue
+      - ethics_deontology
+      - ethics_utilitarianism
     adapter_keys_shown:
       - model
       - method
@@ -1987,6 +1998,7 @@ run_groups:
     subgroups:
       - natural_qa_openbook_longans
       - summarization_cnndm
+      - sam_sum
       - imdb
       - civil_comments
     adapter_keys_shown:
@@ -2250,6 +2262,8 @@ run_groups:
     category: Targeted evaluations
     metric_groups:
       - accuracy
+      - robustness
+      - fairness
     environment:
       main_name: exact_match
       main_split: valid
@@ -2267,6 +2281,8 @@ run_groups:
     category: Targeted evaluations
     metric_groups:
       - accuracy
+      - robustness
+      - fairness
     environment:
       main_name: exact_match
       main_split: valid
@@ -2285,6 +2301,8 @@ run_groups:
     category: Targeted evaluations
     metric_groups:
       - accuracy
+      - robustness
+      - fairness
     environment:
       main_name: exact_match
       main_split: valid
@@ -2302,6 +2320,8 @@ run_groups:
     category: Targeted evaluations
     metric_groups:
       - accuracy
+      - robustness
+      - fairness
     environment:
       main_name: exact_match
       main_split: valid
@@ -2319,6 +2339,8 @@ run_groups:
     category: Targeted evaluations
     metric_groups:
       - accuracy
+      - robustness
+      - fairness
     environment:
       main_name: exact_match
       main_split: valid
@@ -2421,6 +2443,9 @@ run_groups:
       - accuracy
       - summarization_metrics
       - bias
+      - toxicity
+      - efficiency
+      - general_information
     environment:
       main_name: rouge_2
       main_split: valid

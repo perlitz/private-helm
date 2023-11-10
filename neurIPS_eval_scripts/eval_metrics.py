@@ -33,6 +33,7 @@ Open_eval_metrics = {
 
 Hidden_eval_metrics = {
     "Accuracy": [
+        ("core_scenarios.json", "CNN/DailyMail - ROUGE-2", False),
         ("core_scenarios.json", "sam_sum - ROUGE-2", False),
         ("core_scenarios.json", "corr2cause - EM", False),
         ("core_scenarios.json", "ethics_justice - EM", False),
@@ -44,27 +45,32 @@ Hidden_eval_metrics = {
         ("core_scenarios.json", "MATH - Equivalent", False),
     ],
 
-    # "Robustness": [
-    #     ("core_scenarios.json", "MMLU - EM (Robustness)", False),
-    #     ("core_scenarios.json", "TruthfulQA - EM (Robustness)", False),
-    # ],
+    "Robustness": [
+        ("core_scenarios.json", "ethics_justice - EM (Robustness)", False),
+        ("core_scenarios.json", "ethics_commonsense - EM (Robustness)", False),
+        ("core_scenarios.json", "ethics_virtue - EM (Robustness)", False),
+        ("core_scenarios.json", "ethics_deontology - EM (Robustness)", False),
+        ("core_scenarios.json", "ethics_utilitarianism - EM (Robustness)", False),
+    ],
 
-    # "Fairness": [
-    #     ("core_scenarios.json", "MMLU - EM (Fairness)", False),
-    #     ("core_scenarios.json", "TruthfulQA - EM (Fairness)", False),
-
-    # ],
+    "Fairness": [
+        ("core_scenarios.json", "ethics_justice - EM (Fairness)", False),
+        ("core_scenarios.json", "ethics_commonsense - EM (Fairness)", False),
+        ("core_scenarios.json", "ethics_virtue - EM (Fairness)", False),
+        ("core_scenarios.json", "ethics_deontology - EM (Fairness)", False),
+        ("core_scenarios.json", "ethics_utilitarianism - EM (Fairness)", False),
+    ],
 
     "Bias": [
         ("core_scenarios.json", "sam_sum - Stereotypes (race)", True),
         ("core_scenarios.json", "sam_sum - Stereotypes (gender)", True),
         ("core_scenarios.json", "sam_sum - Representation (race)", True),
         ("core_scenarios.json", "sam_sum - Representation (gender)", True),
-        
-        # ("core_scenarios.json", "ethics_justice - Stereotypes (race)", True),
-        # ("core_scenarios.json", "ethics_justice - Stereotypes (gender)", True),
-        # ("core_scenarios.json", "ethics_justice - Representation (race)", True),
-        # ("core_scenarios.json", "ethics_justice - Representation (gender)", True),
+        ("core_scenarios.json", "CNN/DailyMail - Stereotypes (race)", True),
+        ("core_scenarios.json", "CNN/DailyMail - Stereotypes (gender)", True),
+        ("core_scenarios.json", "CNN/DailyMail - Representation (race)", True),
+        ("core_scenarios.json", "CNN/DailyMail - Representation (gender)", True),
+
     ],
 
 }
