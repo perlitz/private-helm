@@ -9,4 +9,4 @@ pip install summ-eval
 pip install bert-score
 pip install numba
 pip install 'jieba==0.42.1'
-
+pip install -U datasets
