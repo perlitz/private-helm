@@ -1815,6 +1815,25 @@ def get_cnndm_summarization_spec(temperature: float = 0.3, device: str = "cpu") 
         groups=["summarization_cnndm"],
     )
 
+@run_spec_function("sam_sum")
+def get_sam_sum_spec() -> RunSpec:
+    scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.sam_sum_scenario.SamSumScenario", args={})
+
+    adapter_spec = get_summarization_adapter_spec(
+        num_sents=1,
+        max_tokens=128,
+        temperature=0.3,
+    )
+
+    return RunSpec(
+        name="sam_sum",
+        scenario_spec=scenario_spec,
+        adapter_spec=adapter_spec,
+        metric_specs=   get_summarization_metric_specs({"task": "sam_sum", "device": 'cpu'})
+        + get_generative_harms_metric_specs(),
+        groups=["sam_sum"],
+    )
+
 
 @run_spec_function("empatheticdialogues")
 def get_empatheticdialogues_spec() -> RunSpec:
@@ -2057,26 +2076,6 @@ def get_me_q_sum_spec() -> RunSpec:
         metric_specs=get_open_ended_generation_metric_specs() + get_generative_harms_metric_specs(),
         groups=["MeQSum"],
     )
-
-
-@run_spec_function("sam_sum")
-def get_sam_sum_spec() -> RunSpec:
-    scenario_spec = ScenarioSpec(class_name="helm.benchmark.scenarios.sam_sum_scenario.SamSumScenario", args={})
-
-    adapter_spec = get_summarization_adapter_spec(
-        num_sents=1,
-        max_tokens=128,
-        temperature=0.3,
-    )
-
-    return RunSpec(
-        name="sam_sum",
-        scenario_spec=scenario_spec,
-        adapter_spec=adapter_spec,
-        metric_specs=get_open_ended_generation_metric_specs(),
-        groups=["sam_sum"],
-    )
-
 
 @run_spec_function("med_dialog")
 def get_med_dialog_spec(subset: str) -> RunSpec:

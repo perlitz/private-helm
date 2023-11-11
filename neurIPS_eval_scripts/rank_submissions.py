@@ -114,7 +114,7 @@ if __name__ == "__main__":
         ranked_results = rank_results(submission_results, METRICS)
 
         with open (f"{args.name}_full_rank.json", 'w') as handle:
-            json.dump( ranked_results, handle)
+            json.dump( ranked_results, handle, indent=4)
 
     except Exception as e :
         print(e)
