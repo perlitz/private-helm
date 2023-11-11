@@ -2,7 +2,7 @@ entries = [
 
     # Misc datasets
     {'scenario': 'summarization', 'description': "sam_sum:model=neurips/local", 'priority': 1},
-    {'scenario': 'causation', 'description': "corr2cause:model=neurips/local", 'priority': 1},
+    {'scenario': 'causation', 'description': "corr2cause:model=neurips/local,max_train_instances=1",'priority': 1},
 
     ## Ethics datasets
     {'scenario': 'ethics', 'description': "ethics_justice:model=neurips/local", 'priority': 1},
