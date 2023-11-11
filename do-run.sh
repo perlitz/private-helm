@@ -5,7 +5,7 @@ source /helm/private_helm_env/bin/activate
 
 export CONF_NAME=$(basename -s .conf "$1")
 
-timeout --foreground 120m helm-run \
+timeout --foreground 300m helm-run \
   --output-path /results \
   --conf-paths "$1" \
   --suite "$2" \
@@ -19,4 +19,5 @@ helm-summarize \
 
 python3 /helm/neurIPS_eval_scripts/process_helm.py \
   --dir /results \
-  --idx "$2"
+  --idx "$2" \
+  --hidden
