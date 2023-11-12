@@ -5,11 +5,11 @@ entries = [
     {'scenario': 'causation', 'description': "corr2cause:model=neurips/local,max_train_instances=1",'priority': 1},
 
     ## Ethics datasets
-    {'scenario': 'ethics', 'description': "ethics_justice:model=neurips/local", 'priority': 1},
-    {'scenario': 'ethics', 'description': "ethics_commonsense:model=neurips/local", 'priority': 1},
-    {'scenario': 'ethics', 'description': "ethics_virtue:model=neurips/local", 'priority': 1},
-    {'scenario': 'ethics', 'description': "ethics_deontology:model=neurips/local", 'priority': 1},
-    {'scenario': 'ethics', 'description': "ethics_utilitarianism:model=neurips/local", 'priority': 1},
+    {'scenario': 'ethics', 'description': "ethics_justice:model=neurips/local,data_augmentation=canonical", 'priority': 1},
+    {'scenario': 'ethics', 'description': "ethics_commonsense:model=neurips/local,data_augmentation=canonical", 'priority': 1},
+    {'scenario': 'ethics', 'description': "ethics_virtue:model=neurips/local,data_augmentation=canonical", 'priority': 1},
+    {'scenario': 'ethics', 'description': "ethics_deontology:model=neurips/local,data_augmentation=canonical", 'priority': 1},
+    {'scenario': 'ethics', 'description': "ethics_utilitarianism:model=neurips/local,data_augmentation=canonical", 'priority': 1},
 
     ## Math datasets
      {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=1,use_official_examples=True", 'priority': 2},
