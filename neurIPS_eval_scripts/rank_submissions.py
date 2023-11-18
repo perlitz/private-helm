@@ -50,7 +50,7 @@ def calc_win_rate(values, lower_is_better=False, verbose=False):
             elif lower_is_better and v < vv:
                 win_rate[i] += 1
             elif v == vv:
-                win_rate[i] += 1.0/counts[v]
+                win_rate[i] += 1.0/(counts[v] * (counts[v] - 1))
     win_rate = [(k, v/len(values)) for k, v in win_rate.items()]
     if verbose:
         print( [(i,v ) for i, v in enumerate(values)])
