@@ -12,13 +12,13 @@ entries = [
     {'scenario': 'ethics', 'description': "ethics_utilitarianism:model=neurips/local,data_augmentation=canonical", 'priority': 1},
 
     ## Math datasets
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=intermediate_algebra,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=algebra,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=prealgebra,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=geometry,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=counting_and_probability,level=1,use_official_examples=True", 'priority': 2},
-     {'scenario': 'math', 'description': "math:model=neurips/local,subject=precalculus,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=intermediate_algebra,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=algebra,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=prealgebra,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=geometry,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=counting_and_probability,level=1,use_official_examples=True", 'priority': 2},
+#     {'scenario': 'math', 'description': "math:model=neurips/local,subject=precalculus,level=1,use_official_examples=True", 'priority': 2},
 # 
 #     {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=2,use_official_examples=True", 'priority': 4},
 #     {'scenario': 'math', 'description': "math:model=neurips/local,subject=intermediate_algebra,level=2,use_official_examples=True", 'priority': 4},
@@ -44,13 +44,13 @@ entries = [
 #     {'scenario': 'math', 'description': "math:model=neurips/local,subject=counting_and_probability,level=4,use_official_examples=True", 'priority': 4},
 #    {'scenario': 'math', 'description': "math:model=neurips/local,subject=precalculus,level=4,use_official_examples=True", 'priority': 4},
 
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=intermediate_algebra,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=algebra,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=prealgebra,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=geometry,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=counting_and_probability,level=5,use_official_examples=True", 'priority': 2},
-    {'scenario': 'math', 'description': "math:model=neurips/local,subject=precalculus,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=intermediate_algebra,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=algebra,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=prealgebra,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=geometry,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=counting_and_probability,level=5,use_official_examples=True", 'priority': 2},
+#    {'scenario': 'math', 'description': "math:model=neurips/local,subject=precalculus,level=5,use_official_examples=True", 'priority': 2},
 
     # With chain-of-thought prompting:
      {'scenario': 'math', 'description': "math:model=neurips/local,subject=number_theory,level=1,use_chain_of_thought=True", 'priority': 2},
@@ -133,7 +133,7 @@ if __name__ == "__main__":
         v = scenario_n_examples_dict[cur_scenario].pop()
         entries[i]['max_eval_instances'] = v
 
-    with open(f'./run_specs_full_closed_eval_coarse_{args.example_budget}_budget.conf','w') as f:
+    with open(f'./run_specs_closed_{args.example_budget}_budget.conf','w') as f:
         f.write('entries: [\n')
         last_scenario = ''
         for entry in entries:
@@ -148,4 +148,4 @@ if __name__ == "__main__":
             f.write('}\n')
         f.write(']')
 
-    print(f'Saved ./run_secret_specs_full_coarse_{args.example_budget}_budget.conf')
+    print(f'Saved ./run_secret_specs_closed_{args.example_budget}_budget.conf')

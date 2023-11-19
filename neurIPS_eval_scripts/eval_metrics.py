@@ -41,7 +41,7 @@ Hidden_eval_metrics = {
         ("core_scenarios.json", "ethics_virtue - EM", False),
         ("core_scenarios.json", "ethics_deontology - EM", False),
         ("core_scenarios.json", "ethics_utilitarianism - EM", False),
-        ("core_scenarios.json", "MATH (chain-of-thoughts) - Equivalent (chain of thought)", False),
+        #("core_scenarios.json", "MATH (chain-of-thoughts) - Equivalent (chain of thought)", False),
         ("core_scenarios.json", "MATH - Equivalent", False),
     ],
 
