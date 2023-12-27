@@ -171,7 +171,7 @@ if __name__ == "__main__":
     def rank_agreement_between_scenarios(agg_df):
         mwr_df = agg_df[agg_df["subscenario"].str.contains("Mean Win Rate")]
         mwr_df = mwr_df[mwr_df["comp_round"] == "final"]
-        mwr_df = mwr_df[mwr_df["GPU"] == "A100"]
+        # mwr_df = mwr_df[mwr_df["GPU"] == "A100"]
 
         mwr_df["mean_mwr"] = mwr_df.groupby(["model", "GPU"])["score"].transform("mean")
         mwr_df.sort_values("mean_mwr", ascending=False, inplace=True)
@@ -180,21 +180,24 @@ if __name__ == "__main__":
 
         mwr_df["model_short"] = mwr_df["model"].apply(lambda x: x.split("_")[0])
 
-        ax = sns.pointplot(
-            mwr_df,
-            x="scenario",
-            y="rank",
-            hue="model_short",
-        )
+        for gpu_name, group in mwr_df.groupby("GPU"):
+            ax = sns.pointplot(
+                group,
+                x="scenario",
+                y="rank",
+                hue="model_short",
+            )
 
-        sns.move_legend(ax, "upper left", bbox_to_anchor=(1, 1))
+            sns.move_legend(ax, "upper left", bbox_to_anchor=(1, 1))
 
-        plt.gca().invert_yaxis()
-        plt.xlabel("Scanario")
-        plt.ylabel("Rank (based on mean-mean win rate)")
-        plt.xticks(rotation=45)
-        plt.tight_layout()
-        plt.savefig(f"{analysis_dir}/figs/ranks_with_wmr/fig.png")
+            plt.gca().invert_yaxis()
+            plt.xlabel("Scanario")
+            plt.ylabel("Rank (based on mean-mean win rate)")
+            plt.title(f"Rank agreement between scenarios: gpu={gpu_name}")
+            plt.xticks(rotation=45)
+            plt.tight_layout()
+            plt.savefig(f"{analysis_dir}/figs/ranks_with_wmr/{gpu_name}.png")
+            plt.clf()
 
     if do_rank_agreement_between_scenarios:
         rank_agreement_between_scenarios(agg_df)
